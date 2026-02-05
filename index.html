@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Pookified Art</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  background: #fafafa;
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff4f81;
+  margin-right: 20px;
+}
+
+/* FILTER BUTTONS (NOW IN NAVBAR) */
+.filters {
+  display: flex;
+  gap: 8px;
+}
+
+.filters button {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ff4f81;
+  background: white;
+  color: #ff4f81;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filters button.active {
+  background: #ff4f81;
+  color: white;
+}
+
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.nav-actions input {
+  padding: 7px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(120deg, #ffd6e5, #fff0f5);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* PRODUCTS GRID */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.product {
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* DETAIL PAGE */
+#detail {
+  display: none;
+  max-width: 520px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+}
+
+/* IMAGE */
+.img-wrap {
+  position: relative;
+  text-align: center;
+}
+
+.detail-main-img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+/* ARROWS */
+.img-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  font-size: 22px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.img-arrow.left { left: 10px; }
+.img-arrow.right { right: 10px; }
+
+.share-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: none;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* THUMBNAILS */
+.thumbnail-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.thumbnail-row img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail-row img:hover {
+  border-color: #ff4f81;
+}
+
+/* PRODUCT INFO BELOW IMAGE */
+.product-info {
+  margin-top: 20px;
+}
+
+.price {
+  font-size: 24px;
+  color: #ff4f81;
+  margin: 10px 0;
+}
+
+.primary-btn, .secondary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.primary-btn {
+  background: #ff4f81;
+  color: white;
+  border: none;
+}
+
+.secondary-btn {
+  background: white;
+  border: 1px solid #ff4f81;
+  color: #ff4f81;
+}
+
+/* CART */
+#cartPanel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  display: none;
+  box-shadow: -6px 0 20px rgba(0,0,0,0.2);
+  z-index: 2000;
+}
+
+.cart-item button {
+  margin: 0 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #ff4f81;
+  background: white;
+  cursor: pointer;
+}
+
+.cart-item button:hover {
+  background: #ff4f81;
+  color: white;
+  border-color: #ff4f81;
+}
+</style>
+</head>
+
+<body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="navbar">
+  <div class="logo">The Pookified Art</div>
+
+  <div class="filters">
+    <button class="active" onclick="setCategory('all', this)">All</button>
+    <button onclick="setCategory('keychain', this)">Keychains</button>
+    <button onclick="setCategory('charm', this)">Charms</button>
+  </div>
+
+  <div class="nav-actions">
+    <input id="searchInput" placeholder="Search..." onkeyup="renderProducts()">
+    <button onclick="toggleCart()">🛒</button>
+  </div>
+</div>
+
+<section class="hero" id="hero">
+  <h1>Handmade Cute Charms & Keychains</h1>
+  <p>Perfect gifts for yourself and loved ones 💖</p>
+</section>
+
+<section class="products" id="products"></section>
+
+<section id="detail">
+  <p onclick="goBack()" style="cursor:pointer;">← Back</p>
+
+  <div class="img-wrap">
+    <button class="img-arrow left" onclick="prevImage()">‹</button>
+    <img id="dImg" class="detail-main-img">
+    <button class="img-arrow right" onclick="nextImage()">›</button>
+    <button class="share-btn" onclick="shareProduct()">↗</button>
+  </div>
+
+  <div class="thumbnail-row" id="thumbnails"></div>
+
+  <div class="product-info">
+    <h2 id="dName"></h2>
+    <p class="price" id="dPrice"></p>
+    <p id="dDesc"></p>
+
+    <p><strong>Shipping:</strong> Ships within 3–4 days</p>
+    <p><strong>Support:</strong> DM @thepookifiedart</p>
+
+    <button class="primary-btn" onclick="addToCart()">Add to Cart</button>
+    <button class="secondary-btn" onclick="orderNow()">Buy Now on WhatsApp</button>
+  </div>
+</section>
+
+<div id="cartPanel">
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <p>Total: ₹<span id="cartTotal">0</span></p>
+  <button class="primary-btn" onclick="checkout()">Checkout on WhatsApp</button>
+  <button class="secondary-btn" onclick="toggleCart()">Close</button>
+</div>
+
+<script>
+const phone = "917824033192";
+
+const products = [
+  {
+    name: "Penguin Keychain 🐧",
+    price: 50,
+    category: "keychain",
+    images: ["images/penguin.jpeg","images/penguin2.jpeg"],
+    desc: "Handmade clay penguin keychain crafted with care. It’s sturdy and durable, but still treat it gently like you would a tiny penguin friend 🐧\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, then DM us, your penguin charm baby needs its full 2-week creation time."
+  },
+  {
+    name: "Mushroom Keychain 🍄",
+    price: 60,
+    category: "keychain",
+    images: ["images/mushroom.jpeg","images/mushroom2.jpeg"],
+    desc: "Handmade clay mushroom keychain crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🍄🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
+  },
+  {
+    name: "Panda Keychain 🍄",
+    price: 60,
+    category: "keychain",
+    images: ["images/panda.jpeg"],
+    desc: "Handmade clay panda keychain crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
+  },
+  {
+    name: "3 bear charm",
+    price: 60,
+    category: "charm",
+    images: ["images/three panda.jpeg"],
+    desc: "Handmade clay charm crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
+  },
+  {
+    name: "vel charm ",
+    price: 60,
+    category: "charm",
+    images: ["images/vel.jpeg"],
+    desc: "Handmade clay charm crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
+  }
+];
+
+let currentCategory = "all";
+let currentProduct = null;
+let currentImage = 0;
+let cart = [];
+
+const productDiv = document.getElementById("products");
+
+function renderProducts(){
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = products.filter(p => 
+    (currentCategory==="all" || p.category===currentCategory) &&
+    p.name.toLowerCase().includes(search)
+  );
+  productDiv.innerHTML="";
+  filtered.forEach((p,i)=>{
+    productDiv.innerHTML += `
+      <div class="product">
+        <img src="${p.images[0]}" onclick="openDetail(${i})">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+      </div>`;
+  });
+}
+
+function setCategory(cat, btn){
+  currentCategory = cat;
+  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderProducts();
+}
+
+function openDetail(i){
+  currentProduct = products[i];
+  currentImage = 0;
+  hero.style.display="none";
+  productDiv.style.display="none";
+  detail.style.display="block";
+
+  dImg.src = currentProduct.images[currentImage];
+  dName.innerText = currentProduct.name;
+  dPrice.innerText = "₹"+currentProduct.price;
+  dDesc.innerText = currentProduct.desc;
+
+  thumbnails.innerHTML="";
+  currentProduct.images.forEach((img,idx)=>{
+    thumbnails.innerHTML+=`<img src="${img}" onclick="setImage(${idx})">`;
+  });
+}
+
+function setImage(i){ currentImage=i; dImg.src=currentProduct.images[i]; }
+function nextImage(){ currentImage=(currentImage+1)%currentProduct.images.length; setImage(currentImage); }
+function prevImage(){ currentImage=(currentImage-1+currentProduct.images.length)%currentProduct.images.length; setImage(currentImage); }
+
+function goBack(){
+  detail.style.display="none";
+  productDiv.style.display="grid";
+  hero.style.display="block";
+}
+
+function shareProduct(){
+  window.open(`https://wa.me/?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`);
+}
+
+// CART FUNCTIONS
+function addToCart(){
+  const existing = cart.find(i=>i.name===currentProduct.name);
+  if(existing){ existing.qty += 1; } 
+  else { cart.push({...currentProduct, qty:1}); }
+  updateCart();
+  toggleCart();
+}
+
+function updateCart(){
+  cartItems.innerHTML="";
+  let total=0;
+  cart.forEach((i,index)=>{
+    total += i.price*i.qty;
+    cartItems.innerHTML+=`
+      <div class="cart-item">
+        ${i.name} ₹${i.price} × 
+        <br>
+        <button onclick="changeQty(${index},-1)">−</button> ${i.qty} 
+        <button onclick="changeQty(${index},1)">+</button>
+        <button onclick="removeItem(${index})">🗑️</button>
+        </br>
+      </div>
+    `;
+  });
+  cartTotal.innerText = total;
+}
+
+function changeQty(index,delta){
+  cart[index].qty += delta;
+  if(cart[index].qty < 1) cart[index].qty = 1;
+  updateCart();
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  updateCart();
+}
+
+function toggleCart(){
+  cartPanel.style.display = cartPanel.style.display==="block"?"none":"block";
+}
+
+function checkout(){
+  if(cart.length===0){ alert("Your cart is empty!"); return; }
+  let msg="Order:\n";
+  cart.forEach(i=> msg+=`${i.name} × ${i.qty} = ₹${i.price*i.qty}\n`);
+  window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
+
+function orderNow(){
+  window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`;
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
