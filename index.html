@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Pookified Art</title>
 
 <style>
@@ -22,16 +23,17 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .logo {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 26px;   /* was 22px */
+  font-weight: 700;
   color: #ff4f81;
-  margin-right: 20px;
 }
 
-/* FILTER BUTTONS (NOW IN NAVBAR) */
+
+/* FILTER BUTTONS */
 .filters {
   display: flex;
   gap: 8px;
@@ -59,10 +61,12 @@ body {
 }
 
 .nav-actions input {
-  padding: 7px 12px;
-  border-radius: 20px;
+  padding: 12px 16px;   /* bigger tap area */
+  border-radius: 22px;
   border: 1px solid #ddd;
+  font-size: 16px;      /* important for mobile */
 }
+
 
 /* HERO */
 .hero {
@@ -73,12 +77,13 @@ body {
 
 /* PRODUCTS GRID */
 .products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap: 20px;
-  padding: 30px;
-  max-width: 1200px;
-  margin: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 14px;
+}
+
+.product img {
+  height: 200px;
 }
 
 .product {
@@ -130,7 +135,6 @@ body {
   height: 38px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .img-arrow.left { left: 10px; }
@@ -146,8 +150,6 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* THUMBNAILS */
@@ -164,14 +166,9 @@ body {
   border-radius: 10px;
   object-fit: cover;
   cursor: pointer;
-  border: 2px solid transparent;
 }
 
-.thumbnail-row img:hover {
-  border-color: #ff4f81;
-}
-
-/* PRODUCT INFO BELOW IMAGE */
+/* PRODUCT INFO */
 .product-info {
   margin-top: 20px;
 }
@@ -179,7 +176,6 @@ body {
 .price {
   font-size: 24px;
   color: #ff4f81;
-  margin: 10px 0;
 }
 
 .primary-btn, .secondary-btn {
@@ -216,25 +212,79 @@ body {
   z-index: 2000;
 }
 
-.cart-item button {
-  margin: 0 4px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid #ff4f81;
-  background: white;
-  cursor: pointer;
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .nav-actions input {
+    width: 100%;
+  }
+
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .product {
+    padding: 14px;
+  }
+
+  .product img {
+    height: 200px;   /* 👈 bigger image */
+  }
+
+  .product h3 {
+    font-size: 16px;
+    margin: 8px 0 4px;
+  }
+
+  .product p {
+    font-size: 14px;
+  }
+  
+  #detail {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .thumbnail-row img {
+    width: 48px;
+    height: 48px;
+  }
+  .img-arrow {
+    touch-action: manipulation;
+    z-index: 5;
+  }
+
+  .share-btn {
+    z-index: 6;
+  }
+ 
+
+  #cartPanel {
+    width: 100%;
+  }
 }
 
-.cart-item button:hover {
-  background: #ff4f81;
-  color: white;
-  border-color: #ff4f81;
-}
 </style>
 </head>
 
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="navbar">
   <div class="logo">The Pookified Art</div>
@@ -317,10 +367,10 @@ const products = [
     desc: "Handmade clay panda keychain crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
   },
   {
-    name: "3 bear charm",
+    name: "3 bear charm 🐼",
     price: 60,
     category: "charm",
-    images: ["images/three panda.jpeg"],
+    images: ["images/threepanda.jpeg"],
     desc: "Handmade clay charm crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
   },
   {
@@ -364,6 +414,8 @@ function setCategory(cat, btn){
 }
 
 function openDetail(i){
+  history.pushState({ page: "detail" }, "");
+  
   currentProduct = products[i];
   currentImage = 0;
   hero.style.display="none";
@@ -381,15 +433,15 @@ function openDetail(i){
   });
 }
 
+
 function setImage(i){ currentImage=i; dImg.src=currentProduct.images[i]; }
 function nextImage(){ currentImage=(currentImage+1)%currentProduct.images.length; setImage(currentImage); }
 function prevImage(){ currentImage=(currentImage-1+currentProduct.images.length)%currentProduct.images.length; setImage(currentImage); }
 
 function goBack(){
-  detail.style.display="none";
-  productDiv.style.display="grid";
-  hero.style.display="block";
+  history.back();
 }
+
 
 function shareProduct(){
   window.open(`https://wa.me/?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`);
@@ -450,6 +502,12 @@ function orderNow(){
 }
 
 renderProducts();
+window.onpopstate = function(e){
+  detail.style.display="none";
+  productDiv.style.display="grid";
+  hero.style.display="block";
+};
+
 </script>
 
 </body>
