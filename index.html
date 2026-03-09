@@ -5,280 +5,348 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Pookified Art</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  margin: 0;
-  background: #fafafa;
+
+body{
+font-family:'Poppins',sans-serif;
+margin:0;
+background:#f6f1ea;
+color:#4b3b2b;
+}
+
+/* GLOBAL */
+
+img{
+max-width:100%;
+height:auto;
 }
 
 /* NAVBAR */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: white;
-  padding: 15px 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+
+.navbar{
+position:sticky;
+top:0;
+z-index:1000;
+background:#fffdf9;
+padding:15px 20px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 4px 15px rgba(0,0,0,0.05);
+flex-wrap:wrap;
 }
 
-.logo {
-  font-size: 26px;   /* was 22px */
-  font-weight: 700;
-  color: #ff4f81;
+.logo{
+font-size:24px;
+font-weight:600;
+color:#8b5e3c;
 }
 
+/* FILTER */
 
-/* FILTER BUTTONS */
-.filters {
-  display: flex;
-  gap: 8px;
+.filters{
+display:flex;
+gap:8px;
 }
 
-.filters button {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid #ff4f81;
-  background: white;
-  color: #ff4f81;
-  cursor: pointer;
-  font-size: 14px;
+.filters button{
+padding:6px 14px;
+border-radius:20px;
+border:1px solid #c8a27a;
+background:white;
+color:#8b5e3c;
+cursor:pointer;
+transition:.3s;
 }
 
-.filters button.active {
-  background: #ff4f81;
-  color: white;
+.filters button.active{
+background:#8b5e3c;
+color:white;
 }
 
-.nav-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 10px;
+/* NAV ACTIONS */
+
+.nav-actions{
+margin-left:auto;
+display:flex;
+gap:10px;
+align-items:center;
 }
 
-.nav-actions input {
-  padding: 12px 16px;   /* bigger tap area */
-  border-radius: 22px;
-  border: 1px solid #ddd;
-  font-size: 16px;      /* important for mobile */
+.nav-actions input{
+padding:8px 14px;
+border-radius:20px;
+border:1px solid #ddd;
 }
 
+.insta-btn{
+text-decoration:none;
+font-size:20px;
+background:#f3e6d7;
+padding:6px 10px;
+border-radius:8px;
+}
 
 /* HERO */
-.hero {
-  background: linear-gradient(120deg, #ffd6e5, #fff0f5);
-  padding: 60px 20px;
-  text-align: center;
+
+.hero{
+background:linear-gradient(120deg,#f3e6d7,#fff8f1);
+padding:70px 20px;
+text-align:center;
 }
 
-/* PRODUCTS GRID */
-.products {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  padding: 14px;
+.hero h1{
+font-size:34px;
+color:#6b4c34;
 }
 
-.product img {
-  height: 200px;
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+max-width:1200px;
+margin:auto;
 }
 
-.product {
-  background: white;
-  border-radius: 14px;
-  padding: 12px;
-  text-align: center;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+.product{
+background:white;
+border-radius:16px;
+padding:14px;
+text-align:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.06);
+transition:.35s;
+position:relative;
 }
 
-.product img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  cursor: pointer;
+.product:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* DETAIL PAGE */
-#detail {
-  display: none;
-  max-width: 520px;
-  margin: 30px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 14px;
+.product img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:12px;
+cursor:pointer;
 }
 
-/* IMAGE */
-.img-wrap {
-  position: relative;
-  text-align: center;
+.product h3{
+margin:10px 0 5px;
 }
 
-.detail-main-img {
-  width: 100%;
-  border-radius: 14px;
+.product p{
+color:#8b5e3c;
+font-weight:600;
 }
 
-/* ARROWS */
-.img-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: white;
-  border: none;
-  font-size: 22px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  cursor: pointer;
+.wishlist{
+position:absolute;
+top:10px;
+right:12px;
+font-size:18px;
+cursor:pointer;
 }
 
-.img-arrow.left { left: 10px; }
-.img-arrow.right { right: 10px; }
+/* DETAIL */
 
-.share-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: white;
-  border: none;
-  font-size: 18px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+#detail{
+display:none;
+max-width:520px;
+margin:30px auto;
+padding:20px;
+background:white;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* THUMBNAILS */
-.thumbnail-row {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 10px;
+.img-wrap{
+position:relative;
 }
 
-.thumbnail-row img {
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
-  object-fit: cover;
-  cursor: pointer;
+.detail-main-img{
+width:100%;
+border-radius:14px;
+}
+
+.img-arrow{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:white;
+border:none;
+font-size:22px;
+width:38px;
+height:38px;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+.left{left:10px;}
+.right{right:10px;}
+
+.share-btn{
+position:absolute;
+top:10px;
+right:10px;
+background:white;
+border:none;
+font-size:18px;
+width:36px;
+height:36px;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+.thumbnail-row{
+display:flex;
+gap:10px;
+justify-content:center;
+margin-top:10px;
+}
+
+.thumbnail-row img{
+width:60px;
+height:60px;
+border-radius:10px;
+object-fit:cover;
+cursor:pointer;
 }
 
 /* PRODUCT INFO */
-.product-info {
-  margin-top: 20px;
+
+.product-info{
+margin-top:20px;
 }
 
-.price {
-  font-size: 24px;
-  color: #ff4f81;
+.price{
+font-size:24px;
+color:#8b5e3c;
 }
 
-.primary-btn, .secondary-btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
+.primary-btn,.secondary-btn{
+width:100%;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
 }
 
-.primary-btn {
-  background: #ff4f81;
-  color: white;
-  border: none;
+.primary-btn{
+background:#8b5e3c;
+color:white;
+border:none;
 }
 
-.secondary-btn {
-  background: white;
-  border: 1px solid #ff4f81;
-  color: #ff4f81;
+.secondary-btn{
+background:white;
+border:1px solid #8b5e3c;
+color:#8b5e3c;
 }
 
 /* CART */
-#cartPanel {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 320px;
-  height: 100%;
-  background: white;
-  padding: 20px;
-  display: none;
-  box-shadow: -6px 0 20px rgba(0,0,0,0.2);
-  z-index: 2000;
+
+#cartPanel{
+position:fixed;
+right:0;
+top:0;
+width:320px;
+height:100%;
+background:white;
+padding:20px;
+display:none;
+box-shadow:-6px 0 20px rgba(0,0,0,0.2);
+z-index:2000;
 }
 
-@media (max-width: 768px) {
+/* WHATSAPP FLOAT */
 
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#8b5e3c;
+color:white;
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+font-size:24px;
+text-decoration:none;
+box-shadow:0 6px 15px rgba(0,0,0,0.25);
+}
 
-  .filters {
-    width: 100%;
-    overflow-x: auto;
-  }
+/* FOOTER */
 
-  .nav-actions {
-    width: 100%;
-    margin-left: 0;
-  }
+.footer{
+margin-top:40px;
+padding:30px;
+text-align:center;
+background:#f3e6d7;
+color:#6b4c34;
+font-size:14px;
+}
 
-  .nav-actions input {
-    width: 100%;
-  }
+/* RESPONSIVE */
 
-  .products {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    padding: 14px;
-  }
+@media (max-width:768px){
 
-  .product {
-    padding: 14px;
-  }
+.navbar{
+flex-direction:column;
+align-items:flex-start;
+}
 
-  .product img {
-    height: 200px;   /* 👈 bigger image */
-  }
+.nav-actions{
+width:100%;
+margin-left:0;
+}
 
-  .product h3 {
-    font-size: 16px;
-    margin: 8px 0 4px;
-  }
+.nav-actions input{
+width:100%;
+}
 
-  .product p {
-    font-size: 14px;
-  }
-  
-  #detail {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
-  }
+.products{
+grid-template-columns:repeat(2,1fr);
+padding:20px;
+}
 
-  .thumbnail-row img {
-    width: 48px;
-    height: 48px;
-  }
-  .img-arrow {
-    touch-action: manipulation;
-    z-index: 5;
-  }
+.product img{
+height:200px;
+}
 
-  .share-btn {
-    z-index: 6;
-  }
- 
+.hero h1{
+font-size:26px;
+}
 
-  #cartPanel {
-    width: 100%;
-  }
+#cartPanel{
+width:100%;
+}
+
+}
+
+@media (max-width:480px){
+
+.products{
+grid-template-columns:1fr;
+}
+
+.hero{
+padding:40px 15px;
+}
+
+.hero h1{
+font-size:22px;
+}
+
 }
 
 </style>
@@ -287,228 +355,342 @@ body {
 <body>
 
 <div class="navbar">
-  <div class="logo">The Pookified Art</div>
 
-  <div class="filters">
-    <button class="active" onclick="setCategory('all', this)">All</button>
-    <button onclick="setCategory('keychain', this)">Keychains</button>
-    <button onclick="setCategory('charm', this)">Charms</button>
-  </div>
+<div class="logo">The Pookified Art</div>
 
-  <div class="nav-actions">
-    <input id="searchInput" placeholder="Search..." onkeyup="renderProducts()">
-    <button onclick="toggleCart()">🛒</button>
-  </div>
+<div class="filters">
+<button class="active" onclick="setCategory('all',this)">All</button>
+<button onclick="setCategory('keychain',this)">Keychains</button>
+<button onclick="setCategory('charm',this)">Charms</button>
+</div>
+
+<div class="nav-actions">
+<input id="searchInput" placeholder="Search..." onkeyup="renderProducts()">
+<a href="https://instagram.com/thepookifiedart" target="_blank" class="insta-btn">📷</a>
+<button onclick="toggleCart()">🛒</button>
+</div>
+
 </div>
 
 <section class="hero" id="hero">
-  <h1>Handmade Cute Charms & Keychains</h1>
-  <p>Perfect gifts for yourself and loved ones 💖</p>
+<h1>Handmade Cute Charms & Keychains</h1>
+<p>Perfect gifts for yourself and loved ones 🤎</p>
 </section>
 
 <section class="products" id="products"></section>
 
 <section id="detail">
-  <p onclick="goBack()" style="cursor:pointer;">← Back</p>
 
-  <div class="img-wrap">
-    <button class="img-arrow left" onclick="prevImage()">‹</button>
-    <img id="dImg" class="detail-main-img">
-    <button class="img-arrow right" onclick="nextImage()">›</button>
-    <button class="share-btn" onclick="shareProduct()">↗</button>
-  </div>
+<p onclick="goBack()" style="cursor:pointer;">← Back</p>
 
-  <div class="thumbnail-row" id="thumbnails"></div>
+<div class="img-wrap">
+<button class="img-arrow left" onclick="prevImage()">‹</button>
+<img id="dImg" class="detail-main-img">
+<button class="img-arrow right" onclick="nextImage()">›</button>
+<button class="share-btn" onclick="shareProduct()">↗</button>
+</div>
 
-  <div class="product-info">
-    <h2 id="dName"></h2>
-    <p class="price" id="dPrice"></p>
-    <p id="dDesc"></p>
+<div class="thumbnail-row" id="thumbnails"></div>
 
-    <p><strong>Shipping:</strong> Ships within 3–4 days</p>
-    <p><strong>Support:</strong> DM @thepookifiedart</p>
+<div class="product-info">
+<h2 id="dName"></h2>
+<p class="price" id="dPrice"></p>
+<p id="dDesc"></p>
 
-    <button class="primary-btn" onclick="addToCart()">Add to Cart</button>
-    <button class="secondary-btn" onclick="orderNow()">Buy Now on WhatsApp</button>
-  </div>
+<p><strong>Shipping:</strong> Ships within 3–4 days</p>
+<p><strong>Support:</strong> DM @thepookifiedart</p>
+
+<button class="primary-btn" onclick="addToCart()">Add to Cart</button>
+<button class="secondary-btn" onclick="orderNow()">Buy Now on WhatsApp</button>
+</div>
+
 </section>
 
 <div id="cartPanel">
-  <h3>Your Cart</h3>
-  <div id="cartItems"></div>
-  <p>Total: ₹<span id="cartTotal">0</span></p>
-  <button class="primary-btn" onclick="checkout()">Checkout on WhatsApp</button>
-  <button class="secondary-btn" onclick="toggleCart()">Close</button>
+<h3>Your Cart</h3>
+<div id="cartItems"></div>
+<p>Total ₹<span id="cartTotal">0</span></p>
+<button class="primary-btn" onclick="checkout()">Checkout on WhatsApp</button>
+<button class="secondary-btn" onclick="toggleCart()">Close</button>
 </div>
 
+<a href="https://wa.me/917824033192" class="whatsapp">💬</a>
+
+<footer class="footer">
+<p>© 2026 The Pookified Art</p>
+<p>Handmade with love 🤎</p>
+<p>DM us on Instagram @thepookifiedart</p>
+</footer>
+
 <script>
-const phone = "917824033192";
+const phone="917824033192"
 
-const products = [
-  {
-    name: "Penguin Keychain 🐧",
-    price: 50,
-    category: "keychain",
-    images: ["images/penguin.jpeg","images/penguin2.jpeg"],
-    desc: "Handmade clay penguin keychain crafted with care. It’s sturdy and durable, but still treat it gently like you would a tiny penguin friend 🐧\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, then DM us, your penguin charm baby needs its full 2-week creation time."
-  },
-  {
-    name: "Mushroom Keychain 🍄",
-    price: 60,
-    category: "keychain",
-    images: ["images/mushroom.jpeg","images/mushroom2.jpeg"],
-    desc: "Handmade clay mushroom keychain crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🍄🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
-  },
-  {
-    name: "Panda Keychain 🍄",
-    price: 60,
-    category: "keychain",
-    images: ["images/panda.jpeg"],
-    desc: "Handmade clay panda keychain crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
-  },
-  {
-    name: "3 bear charm 🐼",
-    price: 60,
-    category: "charm",
-    images: ["images/threepanda.jpeg"],
-    desc: "Handmade clay charm crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
-  },
-  {
-    name: "vel charm ",
-    price: 60,
-    category: "charm",
-    images: ["images/vel.jpeg"],
-    desc: "Handmade clay charm crafted with lots of love. It’s sturdy and durable, but please treat it gently—like a tiny forest friend that deserves care 🤍\n\nEach piece takes around 2 weeks to make. If it’s already in stock, it ships the next day — if not, just DM us. Your mushroom charm baby needs its full 2-week magical creation time ✨🌿"
-  }
-];
+const products=[
+{
+name:"Penguin Keychain 🐧",
+price:50,
+category:"keychain",
+images:["images/penguin.jpeg","images/penguin2.jpeg"],
+desc:"Handmade clay penguin keychain crafted with love."
+},
+{
+name:"Mushroom Keychain 🍄",
+price:60,
+category:"keychain",
+images:["images/mushroom.jpeg","images/mushroom2.jpeg"],
+desc:"Handmade clay mushroom keychain crafted with love."
+},
+{
+name:"Panda Keychain 🐼",
+price:60,
+category:"keychain",
+images:["images/panda.jpeg"],
+desc:"Cute handmade panda clay keychain."
+},
+{
+name:"3 Bear Charm",
+price:60,
+category:"charm",
+images:["images/threepanda.jpeg"],
+desc:"Cute clay charm with 3 bears."
+},
+{
+name:"Vel Charm",
+price:60,
+category:"charm",
+images:["images/vel.jpeg"],
+desc:"Handmade vel charm crafted from clay."
+}
+]
 
-let currentCategory = "all";
-let currentProduct = null;
-let currentImage = 0;
-let cart = [];
+let currentCategory="all"
+let currentProduct=null
+let currentImage=0
+let cart=[]
 
-const productDiv = document.getElementById("products");
+const productDiv=document.getElementById("products")
 
 function renderProducts(){
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const filtered = products.filter(p => 
-    (currentCategory==="all" || p.category===currentCategory) &&
-    p.name.toLowerCase().includes(search)
-  );
-  productDiv.innerHTML="";
-  filtered.forEach((p,i)=>{
-    productDiv.innerHTML += `
-      <div class="product">
-        <img src="${p.images[0]}" onclick="openDetail(${i})">
-        <h3>${p.name}</h3>
-        <p>₹${p.price}</p>
-      </div>`;
-  });
+
+const search=document.getElementById("searchInput").value.toLowerCase()
+
+const filtered=products.filter(p=>
+(currentCategory==="all"||p.category===currentCategory)&&
+p.name.toLowerCase().includes(search)
+)
+
+productDiv.innerHTML=""
+
+filtered.forEach((p,i)=>{
+
+productDiv.innerHTML+=`
+
+<div class="product">
+
+<span class="wishlist">🤍</span>
+
+<img src="${p.images[0]}" onclick="openDetail(${i})">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+</div>
+
+`
+
+})
+
 }
 
-function setCategory(cat, btn){
-  currentCategory = cat;
-  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  renderProducts();
+function setCategory(cat,btn){
+
+currentCategory=cat
+
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"))
+
+btn.classList.add("active")
+
+renderProducts()
+
 }
 
 function openDetail(i){
-  history.pushState({ page: "detail" }, "");
-  
-  currentProduct = products[i];
-  currentImage = 0;
-  hero.style.display="none";
-  productDiv.style.display="none";
-  detail.style.display="block";
 
-  dImg.src = currentProduct.images[currentImage];
-  dName.innerText = currentProduct.name;
-  dPrice.innerText = "₹"+currentProduct.price;
-  dDesc.innerText = currentProduct.desc;
+currentProduct=products[i]
 
-  thumbnails.innerHTML="";
-  currentProduct.images.forEach((img,idx)=>{
-    thumbnails.innerHTML+=`<img src="${img}" onclick="setImage(${idx})">`;
-  });
+currentImage=0
+
+hero.style.display="none"
+
+productDiv.style.display="none"
+
+detail.style.display="block"
+
+dImg.src=currentProduct.images[currentImage]
+
+dName.innerText=currentProduct.name
+
+dPrice.innerText="₹"+currentProduct.price
+
+dDesc.innerText=currentProduct.desc
+
+thumbnails.innerHTML=""
+
+currentProduct.images.forEach((img,idx)=>{
+
+thumbnails.innerHTML+=`<img src="${img}" onclick="setImage(${idx})">`
+
+})
+
 }
 
+function setImage(i){
 
-function setImage(i){ currentImage=i; dImg.src=currentProduct.images[i]; }
-function nextImage(){ currentImage=(currentImage+1)%currentProduct.images.length; setImage(currentImage); }
-function prevImage(){ currentImage=(currentImage-1+currentProduct.images.length)%currentProduct.images.length; setImage(currentImage); }
+currentImage=i
+
+dImg.src=currentProduct.images[i]
+
+}
+
+function nextImage(){
+
+currentImage=(currentImage+1)%currentProduct.images.length
+
+setImage(currentImage)
+
+}
+
+function prevImage(){
+
+currentImage=(currentImage-1+currentProduct.images.length)%currentProduct.images.length
+
+setImage(currentImage)
+
+}
 
 function goBack(){
-  history.back();
-}
 
+detail.style.display="none"
+
+productDiv.style.display="grid"
+
+hero.style.display="block"
+
+}
 
 function shareProduct(){
-  window.open(`https://wa.me/?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`);
+
+window.open(`https://wa.me/?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`)
+
 }
 
-// CART FUNCTIONS
+/* CART */
+
 function addToCart(){
-  const existing = cart.find(i=>i.name===currentProduct.name);
-  if(existing){ existing.qty += 1; } 
-  else { cart.push({...currentProduct, qty:1}); }
-  updateCart();
-  toggleCart();
+
+const existing=cart.find(i=>i.name===currentProduct.name)
+
+if(existing) existing.qty++
+
+else cart.push({...currentProduct,qty:1})
+
+updateCart()
+
+toggleCart()
+
 }
 
 function updateCart(){
-  cartItems.innerHTML="";
-  let total=0;
-  cart.forEach((i,index)=>{
-    total += i.price*i.qty;
-    cartItems.innerHTML+=`
-      <div class="cart-item">
-        ${i.name} ₹${i.price} × 
-        <br>
-        <button onclick="changeQty(${index},-1)">−</button> ${i.qty} 
-        <button onclick="changeQty(${index},1)">+</button>
-        <button onclick="removeItem(${index})">🗑️</button>
-        </br>
-      </div>
-    `;
-  });
-  cartTotal.innerText = total;
+
+cartItems.innerHTML=""
+
+let total=0
+
+cart.forEach((i,index)=>{
+
+total+=i.price*i.qty
+
+cartItems.innerHTML+=`
+
+<div>
+
+${i.name} ₹${i.price}
+
+<br>
+
+<button onclick="changeQty(${index},-1)">-</button>
+
+${i.qty}
+
+<button onclick="changeQty(${index},1)">+</button>
+
+<button onclick="removeItem(${index})">🗑</button>
+
+</div>
+
+`
+
+})
+
+cartTotal.innerText=total
+
 }
 
-function changeQty(index,delta){
-  cart[index].qty += delta;
-  if(cart[index].qty < 1) cart[index].qty = 1;
-  updateCart();
+function changeQty(i,d){
+
+cart[i].qty+=d
+
+if(cart[i].qty<1) cart[i].qty=1
+
+updateCart()
+
 }
 
-function removeItem(index){
-  cart.splice(index,1);
-  updateCart();
+function removeItem(i){
+
+cart.splice(i,1)
+
+updateCart()
+
 }
 
 function toggleCart(){
-  cartPanel.style.display = cartPanel.style.display==="block"?"none":"block";
+
+cartPanel.style.display=
+
+cartPanel.style.display==="block"?"none":"block"
+
 }
 
 function checkout(){
-  if(cart.length===0){ alert("Your cart is empty!"); return; }
-  let msg="Order:\n";
-  cart.forEach(i=> msg+=`${i.name} × ${i.qty} = ₹${i.price*i.qty}\n`);
-  window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+if(cart.length===0){
+
+alert("Cart empty")
+
+return
+
+}
+
+let msg="Order:%0A"
+
+cart.forEach(i=>msg+=`${i.name} x ${i.qty} = ₹${i.price*i.qty}%0A`)
+
+window.location.href=`https://wa.me/${phone}?text=${msg}`
+
 }
 
 function orderNow(){
-  window.location.href=`https://wa.me/${phone}?text=${encodeURIComponent(currentProduct.name+" - ₹"+currentProduct.price)}`;
+
+window.location.href=`https://wa.me/${phone}?text=${currentProduct.name}`
+
 }
 
-renderProducts();
-window.onpopstate = function(e){
-  detail.style.display="none";
-  productDiv.style.display="grid";
-  hero.style.display="block";
-};
+renderProducts()
 
 </script>
 
 </body>
 </html>
+```
